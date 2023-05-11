@@ -5,6 +5,10 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
+const postsRouter = require("./src/routes/posts.routes");
+const foodRouter = require("./src/routes/food.routes");
+const userRouter = require("./src/routes/user.routes");
+
 dotenv.config();
 
 const DB_URL = process.env.MONGO_DB;
@@ -57,9 +61,9 @@ server.use(cors({
 
 server.set("secretKey", JWT_SECRET)
 
-// server.use("/blogs", blogsRouter)
-// server.use("/pets", petsRouter);
-// server.use("/users", userRouter);
+server.use("/posts", postsRouter)
+server.use("/images", foodRouter);
+server.use("/users", userRouter);
 
 
 
