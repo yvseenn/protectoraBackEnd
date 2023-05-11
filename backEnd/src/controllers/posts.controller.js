@@ -37,8 +37,8 @@ const getPostByID = async (req, res, next) => {
 const createPost = async (req, res, next) => {
   try {
     const newPosts = new Blog(req.body);
-    if (req.file) {
-      newPosts.picture = req.file.path;
+    if (req) {
+      newPosts.picture = req.path;
     }
     const createdPosts = await newPosts.save();
     return res.json({
@@ -78,8 +78,8 @@ const deletePost = async (req, res, next) => {
         deleteFile(postData.picture);
         }
 
-      if (req.file) {
-        patchPost.picture = req.file.path;
+      if (req) {
+        patchPost.picture = req.path;
       }
   
       const PostDB = await Post.findByIdAndUpdate(id, patchPost);

@@ -32,15 +32,15 @@ const getFoodByID = async (req, res, next) => {
 const createFood = async (req, res, next) => {
   try {
     const newFood = new Food(req.body);
-    console.log(req.files.picture);
-    if (req.files.picture) {
-      newFood.picture = req.files.picture[0].path;
+    console.log(req.picture);
+    if (req.picture) {
+      newFood.picture = req.picture[0].path;
     }
-    if (req.files.picture1) {
-      newFood.picture1 = req.files.picture1[0].path;
+    if (req.picture1) {
+      newFood.picture1 = req.picture1[0].path;
     }
-    if (req.files.picture2) {
-      newFood.picture2 = req.files.picture2[0].path;
+    if (req.picture2) {
+      newFood.picture2 = req.picture2[0].path;
     }
     const createdFood = await newFood.save();
     return res.json({
@@ -76,14 +76,14 @@ const patchFood = async (req, res, next) => {
     const foodData = await Food.findById(id);
     console.log(patchFood);
 
-    if (req.files.picture) {
-      patchFood.picture = req.files.picture[0].path;
+    if (req.picture) {
+      patchFood.picture = req.picture[0].path;
     }
-    if (req.files.picture1) {
-      patchFood.picture1 = req.files.picture1[0].path;
+    if (req.picture1) {
+      patchFood.picture1 = req.picture1[0].path;
     }
-    if (req.files.picture2) {
-      patchFood.picture2 = req.files.picture2[0].path;
+    if (req.picture2) {
+      patchFood.picture2 = req.picture2[0].path;
     }
     const FoodDB = await Food.findByIdAndUpdate(id, patchFood);
 
