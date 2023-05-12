@@ -14,9 +14,9 @@ const {
 
 router.get('/',getAllPosts )
 router.get('/:id',getPostByID )
-router.post('/', isAuth, upload.single('picture'), createPost);
-router.delete('/', isAuth, upload.single('picture'), deletePost);
-router.patch('/', isAuth, upload.single('picture'), patchPost);
+router.post('/', [isAuth], upload.single('picture'), createPost);
+router.delete('/', [isAuth], upload.single('picture'), deletePost);
+router.patch('/', [isAuth], upload.single('picture'), patchPost);
 
 
 module.exports = router;

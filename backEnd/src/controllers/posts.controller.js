@@ -7,7 +7,7 @@ const HTTPSTATUSCODE = require("../utilities/httpcodes")
 
 const getAllPosts = async (req, res, next) => {
   try {
-    const allPosts = await Blog.find();
+    const allPosts = await Post.find();
     return res.json({
       status: 200,
       message: HTTPSTATUSCODE[200],
@@ -36,7 +36,7 @@ const getPostByID = async (req, res, next) => {
 
 const createPost = async (req, res, next) => {
   try {
-    const newPosts = new Blog(req.body);
+    const newPosts = new Post(req.body);
     if (req) {
       newPosts.picture = req.path;
     }
