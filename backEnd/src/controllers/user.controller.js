@@ -3,9 +3,11 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
-
+const dotenv = require("dotenv");
 const HTTPSTATUSCODE = require("../utilities/httpcodes.js");
+dotenv.config();
 
+const secretKey = process.env.SECRET_KEY;
 
 const register = async (req, res, next) => {
   try {
@@ -24,19 +26,16 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    
     const userInfo = await User.findOne({ username: req.body.username });
-    
+
     if (bcrypt.compareSync(req.body.password, userInfo.password)) {
-      
       userInfo.password = null;
-      
       const token = jwt.sign(
         {
           id: userInfo._id,
           username: userInfo.username,
         },
-        req.app.get("secretKey"),
+        secretKey,
         { expiresIn: "1h" }
       );
       return res.json({

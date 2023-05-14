@@ -31,26 +31,26 @@ const LoginComponent = () => {
     else {
         return (
             <>
-                <div>
-                    <input value={mail} onChange={(e)=> setMail(e.target.value)} type="mail" placeholder="mail" />
+                <div className="mb-4">
+                    <input className="border-gray-400 border-solid border rounded px-3 py-2 w-full" value={mail} onChange={(e)=> setMail(e.target.value)} type="email" placeholder="Email Address" />
                 </div>
-                <div>
-                    <input value={pwd} onChange={(e)=> setPwd(e.target.value)} type="password" placeholder="password" />
+                <div className="mb-4">
+                    <input className="border-gray-400 border-solid border rounded px-3 py-2 w-full" value={pwd} onChange={(e)=> setPwd(e.target.value)} type="password" placeholder="Password" />
                 </div>
-                <div>
+                <div className="mb-4">
                     {msgError? <small style={{color:'red'}}>{msgError}</small>:''}
                 </div>
-                <div>
+                <div className="mb-4">
                     {msgSuccess? <small style={{color:'green'}}>{msgSuccess}</small>:''}
                 </div>
-                <div>
-                    <button onClick={tryToLogin}>Login</button>
+                <div className="mb-4">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={tryToLogin}>Login</button>
                 </div>
-                <small>Still not registered? <Link to="/register">Register Here</Link></small>
+                <small className="block">Not registered? <Link className="text-blue-500 hover:text-blue-700 font-bold" to="/register">Create an Account</Link></small>
             </>
         )
     }
 
 }
 
-export default LoginComponent
+export default LoginComponent;

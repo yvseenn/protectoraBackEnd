@@ -6,7 +6,7 @@ const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
   
   if (!authorization) {
-    return res.json({
+    return res.status(401).json({
       status: 401,
       message: HTTPSTATUSCODE[401],
       data: null,
@@ -15,7 +15,7 @@ const isAuth = (req, res, next) => {
   
   const splits = authorization.split(" ");
   if (splits.length != 2 || splits[0] != "Bearer") {
-    return res.json({
+    return res.status(400).json({
       status: 400,
       message: HTTPSTATUSCODE[400],
       data: null,
@@ -25,20 +25,24 @@ const isAuth = (req, res, next) => {
   const jwtString = splits[1];
 
   try {
+    const secretKey = req.app.get("secretKey");
+    if (!secretKey) {
+      throw new Error("Missing secretKey");
+    }
       
-      var token = jwt.verify(jwtString, req.app.get("secretKey"))
+    const token = jwt.verify(jwtString, secretKey);
+  
+    const authority = {
+        id: token.id,
+        name: token.name
+    }
+   
+    req.authority = authority;
+  
+    next();
   } catch (error) {
-      return next(error);
+    next(error);
   }
-  
-  const authority = {
-      id: token.id,
-      name: token.name
-  }
- 
-  req.authority = authority;
-  
-  next()
 };
 
-module.exports = {isAuth}
+module.exports = {isAuth};
