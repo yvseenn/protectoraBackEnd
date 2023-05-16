@@ -15,6 +15,7 @@ import PostsPage from './pages/Posts.page'
 import PrivatePage from './pages/Private.page'
 import PrivateAreaPage from './pages/PrivateArea.page'
 import RegisterPage from './pages/Register.page'
+import FooterComponent from './components/footer/footer.component'
 
 function App() {
   const {user} = useContext(PostContext)
@@ -37,7 +38,7 @@ function App() {
       
     </Routes>
     <footer>
-      Esto es el Footer
+      <FooterComponent/>
     </footer>
     </>
   )

@@ -73,18 +73,39 @@ export default function PostContextProvider({ children }) {
   }, []);
 
   async function addPost(newPost) {
-    await axios.post(BASEURL + "/posts", newPost);
+    const { title, image, content } = newPost; // Destructure the title, image, and content properties from newPost object
+    const formData = new FormData(); // Create a new FormData object
+  
+    formData.append('title', title); // Append the title string to the FormData object
+    formData.append('image', image); // Append the image file to the FormData object
+    formData.append('content', content); // Append the content string to the FormData object
+  
+    await axios.post(BASEURL + "/posts", formData); // Pass the formData object as the request body
     dispatch({ type: "ADD_POST", payload: newPost });
   }
+  
+  
 
   async function login(mail, pwd) {
     const res = await axios.post(BASEURL + "/users/login", { email: mail, password: pwd });
-    dispatch({ type: "DO_LOGIN", payload: res.data.user });
-    localStorage.setItem("_user", JSON.stringify(res.data.user));
+    const { token, user } = res.data;
+    localStorage.setItem("_token", token);
+    localStorage.setItem("_user", JSON.stringify(user));
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    dispatch({ type: "DO_LOGIN", payload: user });
   }
 
   async function register(mail, pwd, name) {
-    await axios.post(BASEURL + "/users/register", { email: mail, password: pwd, name: name });
+    try {
+      const res = await axios.post(BASEURL + "/users/register", { email: mail, password: pwd, name: name });
+      const { token, user } = res.data;
+      localStorage.setItem("_token", token);
+      localStorage.setItem("_user", JSON.stringify(user));
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      dispatch({ type: "DO_LOGIN", payload: user });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function changeName(newName) {

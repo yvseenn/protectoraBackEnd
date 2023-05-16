@@ -15,22 +15,34 @@ export default function RegisterComponent(){
     const [msgError, setMsgError] = useState('')
 
     async function tryToRegister() {
-        await register(email,pwd,name)
-        try {            
-            setEmail('')
-            setPwd('')
-            setPwd2('')
-            setName('')
-            setShowPwd(false)
-            setMsgSuccess('User registered successfully')
-            setMsgError('')
-        } catch (error) {
-            // console.log(error)
-            setMsgSuccess('')
-            setMsgError('error.res.data')
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          setMsgSuccess("");
+          setMsgError("Invalid email. Please enter a valid email address.");
+          return;
         }
-
-    }
+      
+        try {
+          const res = await register(email, pwd, name);
+          if (res === "EMAIL_EXISTS") {
+            setMsgSuccess("");
+            setMsgError("Email already exists. Please choose a different email.");
+          } else {
+            setEmail("");
+            setPwd("");
+            setPwd2("");
+            setName("");
+            setShowPwd(false);
+            setMsgSuccess("User registered successfully");
+            setMsgError("");
+          }
+        } catch (error) {
+          // console.log(error)
+          setMsgSuccess("");
+          setMsgError("Error occurred during registration");
+        }
+      }
+      
 
 
     return (
